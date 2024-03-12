@@ -1,10 +1,21 @@
+"""
+    Leser solgte seter fra filer gitt
+
+    Parametere:
+    fil (str): Stien til filen som skal leses
+
+    Returnerer:
+    solgteSeter (Dict): Dictionary for solgte seter i en gitt oppsetning på formatet {dato: {område: [(radnr,setenr)]}}
+"""
 def lesSolgteSeterFraFil(fil):
     with open(fil,'r') as f:
-        radIndexOffset =0 #Paser på at linjer som inneholder tekst ikke regnes som en stolrad
+
+        radIndexOffset = -1 #Paser på at linjer som inneholder tekst ikke regnes som en stolrad
         solgteSeter = {}
         for radIndex, linje in enumerate(f.readlines()):
+            seteIndexOffset = -1
             linje = linje.strip() # Fjerner tomrom fra linje
-            linjeHarBokstaver = any(not c.isdigit() for c in linje)
+            linjeHarBokstaver = any((not c.isdigit() and c!='x') for c in linje)
             if linjeHarBokstaver:
                 radIndexOffset +=1
                 if 'Dato' in linje:
@@ -17,6 +28,10 @@ def lesSolgteSeterFraFil(fil):
                 continue
 
             for seteIndex,sete in enumerate(linje):
-                if(sete == '1'):
-                    solgteSeter[dato][omraade].append((radIndex,seteIndex))
+                if(sete =='x'):
+                    seteIndexOffset+=1
+                elif(sete == '1'):
+                    solgteSeter[dato][omraade].append((radIndex-radIndexOffset,seteIndex-seteIndexOffset))
         return solgteSeter
+    
+print(lesSolgteSeterFraFil('txt/gamle-scene.txt'))
