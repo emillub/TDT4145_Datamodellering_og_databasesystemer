@@ -36,18 +36,19 @@ def getMedvirkende():
 
 con = sqlite3.connect("./teater.db")
 cursor = con.cursor() 
-
-for index,el in enumerate(getActors()):
+actorList = getActors()
+for index,el in enumerate(actorList):
     string = f'INSERT INTO Ansatt VALUES ({index},"{str(el)}",NULL,"innleid");'
     stringSkuespiller = f'INSERT INTO Skuespiller VALUES ({index});'
     cursor.execute(string)
     con.commit()
     cursor.execute(stringSkuespiller)
     con.commit()
-    
-for index,el in enumerate(getMedvirkende()):
-    string = f'INSERT INTO Ansatt VALUES ({index+len(getActors())},"{str(el)}",Null,"innleid");'
-    stringMedvirkende = f'INSERT INTO Medvirkende VALUES ({index+len(getActors())});'
+
+medvirkendeList = getMedvirkende()
+for index,el in enumerate(medvirkendeList):
+    string = f'INSERT INTO Ansatt VALUES ({index+len(actorList)},"{str(el)}",Null,"innleid");'
+    stringMedvirkende = f'INSERT INTO Medvirkende VALUES ({index+len(actorList)});'
     cursor.execute(string)
     con.commit()
     cursor.execute(stringMedvirkende)
