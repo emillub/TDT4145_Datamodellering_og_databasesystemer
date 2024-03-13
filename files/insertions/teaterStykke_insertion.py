@@ -17,4 +17,3 @@ def insert_teaterStykke():
     con.close()
     return None
 
-#insert_teaterStykke()

@@ -218,5 +218,4 @@ def table_initialization():
     con.close()
     return None
 
-#table_initialization()
 

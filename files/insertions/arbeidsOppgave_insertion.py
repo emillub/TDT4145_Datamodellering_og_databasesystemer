@@ -30,4 +30,3 @@ def insert_arbeidsoppgaver():
     con.close()
     return None
         
-#insert_arbeidsoppgaver()
