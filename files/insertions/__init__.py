@@ -3,7 +3,7 @@ import sqlite3
 from ansatt_insertion import insert_ansatte
 from arbeidsOppgave_insertion import insert_arbeidsoppgaver
 from table_insertion import table_initialization
-from teaterStykke_insertions import insert_teaterStykke
+from teaterStykke_insertion import insert_teaterStykke
 from harOppgave_insertion import insert_harOppgave
 
 
