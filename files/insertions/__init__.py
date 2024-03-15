@@ -5,7 +5,7 @@ from arbeidsOppgave_insertion import insert_arbeidsoppgaver
 from table_insertion import table_initialization
 from teaterStykke_insertion import insert_teaterStykke
 from harOppgave_insertion import insert_harOppgave
-
+from rolle_insertion import insert_rolle
 
 con = sqlite3.connect("./teater.db")
 cursor = con.cursor()
@@ -15,11 +15,12 @@ urlKM = "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=kongsem
 urlSAAEK = "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=storst-av-alt-er-kjaerligheten"
 
 # Runs all insertion-files in correct order.
-table_initialization()
-insert_teaterStykke()
-insert_ansatte()
-insert_arbeidsoppgaver()
-insert_harOppgave()
+# table_initialization()
+# insert_teaterStykke()
+# insert_ansatte()
+# insert_arbeidsoppgaver()
+# insert_harOppgave()
+insert_rolle()
 
 con.commit()
 con.close()
