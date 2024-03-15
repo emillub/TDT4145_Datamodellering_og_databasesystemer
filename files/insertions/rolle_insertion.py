@@ -11,6 +11,15 @@ def getRoller():
     rolleListe = data[0]["acf"]["actors_list"]
     for el in rolleListe:
         rendered_Rolle_list.append(el["sub_title"])
+    for i in range(0,len(rendered_Rolle_list)):
+        if ("/" in rendered_Rolle_list[i]):
+            t = rendered_Rolle_list[i].split("/")
+            rendered_Rolle_list.pop(i)
+            rendered_Rolle_list.append(t[0])
+            rendered_Rolle_list.append(t[1])
+    fu = rendered_Rolle_list[7].split("/")
+    rendered_Rolle_list.pop(7)
+    rendered_Rolle_list.append(fu[0])
         
     data = getData(urlSAAEK)
     rolleListe = data[0]["acf"]["actors_list"]
@@ -20,7 +29,7 @@ def getRoller():
 
 # Insert roller int database
 def insert_rolle():
-    list = getRoller()
+    list = getRoller()   
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()
     for index,el in enumerate(list):
@@ -29,3 +38,4 @@ def insert_rolle():
         con.commit()
     con.close()
     return None
+
