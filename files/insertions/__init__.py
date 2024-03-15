@@ -6,6 +6,7 @@ from table_insertion import table_initialization
 from teaterStykke_insertion import insert_teaterStykke
 from harOppgave_insertion import insert_harOppgave
 from rolle_insertion import insert_rolle
+from harRolle_insertion import insert_harRolle
 from akt_insertion import insert_akt
 
 con = sqlite3.connect("./teater.db")
@@ -22,6 +23,7 @@ insert_ansatte()
 insert_arbeidsoppgaver()
 insert_harOppgave()
 insert_rolle()
+insert_harRolle()
 insert_akt()
 
 con.commit()

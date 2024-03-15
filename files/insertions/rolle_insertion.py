@@ -29,4 +29,3 @@ def insert_rolle():
         con.commit()
     con.close()
     return None
-
