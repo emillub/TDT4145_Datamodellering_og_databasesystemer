@@ -8,6 +8,7 @@ from harOppgave_insertion import insert_harOppgave
 from rolle_insertion import insert_rolle
 from harRolle_insertion import insert_harRolle
 from akt_insertion import insert_akt
+from Oppsetning_insertion import insert_Oppsetning
 
 con = sqlite3.connect("./teater.db")
 cursor = con.cursor()
@@ -25,6 +26,8 @@ insert_harOppgave()
 insert_rolle()
 insert_harRolle()
 insert_akt()
+insert_Oppsetning()
+
 
 con.commit()
 con.close()
