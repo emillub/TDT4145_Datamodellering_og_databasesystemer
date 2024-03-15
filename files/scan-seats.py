@@ -8,42 +8,8 @@
     solgteSeter (Dict): Dictionary for solgte seter i en gitt oppsetning på formatet {dato: {område: [(radnr,setenr)]}}
 """
 
-def lesSolgteSeterFraFil(fil, resetOnNewArea):
-    with open(fil,'r') as f:
-        radIndexOffset = -1 # Passer på at linjer som inneholder tekst ikke regnes som en stolrad
-        solgteSeter = {}
-        omraade = None
-        seteIndexOffset = 1
-        for radIndex, linje in enumerate(f.readlines()):
-            if resetOnNewArea:
-                seteIndexOffset = -1
-            linje = linje.strip() # Fjerner tomrom fra linje
-            linjeHarBokstaver = any((not c.isdigit() and c!='x') for c in linje) # Sjekker om linje inneholder dato eller område
-            if linjeHarBokstaver:
-                radIndexOffset +=1
-                if 'Dato' in linje:
-                    dato = linje.strip('Dato ')
-                    solgteSeter[dato] = {}
-                else:
-                    if resetOnNewArea and omraade is not None: 
-                        radIndexOffset = radIndex
+import sqlite3
 
-                    omraade = linje
-                    solgteSeter[dato][omraade] = []
-                    print(f"Område: {linje}")
-                continue
-            if not resetOnNewArea:
-                seteIndexOffset -= len(linje) -1
-                print(seteIndexOffset)
-                print(f'Antall seter ({len(linje)})')
-
-
-            for seteIndex,sete in enumerate(linje):
-                if(sete =='x'):
-                    seteIndexOffset+=1
-                elif(sete == '1'):
-                    solgteSeter[dato][omraade].append((radIndex-radIndexOffset,seteIndex-seteIndexOffset))
-        return solgteSeter
 
 def inneholderOmraderEllerDato(line):
     return any((not c.isdigit() and c!='x') for c in line) # Sjekker om linje inneholder dato eller område
@@ -63,35 +29,123 @@ def scanHovedScenen():
                 radIndexOffset +=1
                 if 'Dato' in rad:
                     dato = rad.strip('Dato ')
-                    datoDic = {dato : []}
                     forestillinger[dato] = {
                         'sal' : 'Hovedscenen',
                         'solgteSeter' : {},
-                        'tommeSeter' : {}
+                        'xSeter' : {}
                     }
                 else:
                     omraade = rad
                     forestillinger[dato]['solgteSeter'][omraade] = []
-                    forestillinger[dato]['tommeSeter'][omraade] = []
+                    forestillinger[dato]['xSeter'][omraade] = []
                     print(f"Område: {rad}")
                 continue
 
             xer = 0
             print(len(rad))
-            for stolIndex,stol in enumerate(rad):
-                stolnr = kapasitet-stolerIForegaendeRader-stolIndex
-                if stol == '1':
-                    forestillinger[dato]['solgteSeter'][omraade].append((radIndexOffset-radIndex, stolnr))
-                elif stol == 'x':
-                    forestillinger[dato]['tommeSeter'][omraade].append((radIndexOffset-radIndex, stolnr))
+            for seteIndex,sete in enumerate(rad):
+                seteNr = kapasitet-stolerIForegaendeRader-seteIndex
+                if sete == '1':
+                    forestillinger[dato]['solgteSeter'][omraade].append((radIndexOffset-radIndex, seteNr))
+                elif sete == 'x':
+                    forestillinger[dato]['xSeter'][omraade].append((radIndexOffset-radIndex, seteNr))
             stolerIForegaendeRader+=len(rad)
         f.close()
     return forestillinger
-    
+
+def scanGamleScenen():
+    fil = 'txt/gamle-scene.txt'
+    kapasitet = 524
+    rader = 22 # teller med Galleri
+    forestillinger = {}
+    stolerIForegaendeRader = 0
+    with open(fil,'r') as f:
+        radIndexOffset = -1 # Passer på at linjer som inneholder tekst ikke regnes som en stolrad
+        forestillinger = {}
+        omraade = None
+        seteIndexOffset = 1
+        for radIndex, linje in enumerate(f.readlines()):
+            seteIndexOffset = -1
+            linje = linje.strip() # Fjerner tomrom fra linje
+            linjeHarBokstaver = any((not c.isdigit() and c!='x') for c in linje) # Sjekker om linje inneholder dato eller område
+            if linjeHarBokstaver:
+                radIndexOffset +=1
+                if 'Dato' in linje:
+                    dato = linje.strip('Dato ')
+                    forestillinger[dato] = {
+                        'sal' : 'Hovedscenen',
+                        'solgteSeter' : {},
+                        'xSeter' : {}
+                    }
+                else:
+                    if omraade is not None: 
+                        radIndexOffset = radIndex
+
+                    omraade = linje
+                    forestillinger[dato]['solgteSeter'][omraade] = []
+                    forestillinger[dato]['xSeter'][omraade] = []
+                    print(f"Område: {linje}")
+                continue
+
+            for seteIndex,sete in enumerate(linje):
+                seteNr = seteIndex-seteIndexOffset
+                radNr = radIndex-radIndexOffset
+                insertSete(0,radNr,seteNr,omraade)
+                if(sete == '1'):
+                    forestillinger[dato]['solgteSeter'][omraade].append((radNr, seteNr))
+        return forestillinger
+
+def insertSete(salId, radnr, setenr,omrade):
+    con = sqlite3.connect("./teater.db")
+    cursor = con.cursor()
+
+    cursor.execute('''
+            SELECT COUNT(*) FROM Sete;
+        ''')
+    try:
+        cursor.execute(f'''
+                    INSERT INTO Sete (RadNR, SeteNR, Område, SalID) VALUES {int(radnr)},{int(setenr)},"{omrade}", {salId});
+                    ''')
+    except:
+        print("Error")
+    con.commit()
+    con.close()
+
+def insertDefaultBruker():
+    con = sqlite3.connect("./teater.db")
+    cursor = con.cursor()
+    cursor.execute(f'''
+                INSERT INTO Kunde (KundeID, TelefonNr, Navn, Adresse) VALUES (0, 12345678, "Ola Normann", "Adresseveien 1");
+                ''')
+    con.commit()
+    con.close()
+
+def insertDefaultOrdre():
+    klokkeslett = "08:00"
+    dato = "2024-01-01"
+    con = sqlite3.connect("./teater.db")
+    cursor = con.cursor()
+    cursor.execute(f'''
+                INSERT INTO Ordre VALUES (0, "{dato}", "{klokkeslett}", {0});
+                ''')
+    con.commit()
+    con.close()
+
+def insertBillett(seteID,oppsetningID,type,ordreID,teaterStykkeID):
+    con = sqlite3.connect("./teater.db")
+    cursor = con.cursor()
+    cursor.execute(f'''
+                INSERT INTO BILLETT (SeteID,OppsetningID,Type,OrdreID,TeaterStykkeID) VALUES ({seteID},{oppsetningID},{type},{ordreID},{teaterStykkeID});
+                ''')
+    con.commit()
+    con.close()
+
 print(scanHovedScenen())
+print(scanGamleScenen())
                 
-                
-            
+
+insertDefaultBruker()
+insertDefaultOrdre()
 
 
 

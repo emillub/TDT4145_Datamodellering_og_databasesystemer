@@ -220,7 +220,7 @@ def table_initialization():
         SeteID INTEGER NOT NULL,
         RadNr INTEGER NOT NULL,
         SeteNr INTEGER NOT NULL,
-        OMRÅDE VARCHAR(30),
+        Område VARCHAR(30),
         SalID INTEGER NOT NULL,
         CONSTRAINT Sete_PK PRIMARY KEY (SeteID),
         CONSTRAINT Sete_FK FOREIGN KEY (SalID) REFERENCES Sal(SalID)
