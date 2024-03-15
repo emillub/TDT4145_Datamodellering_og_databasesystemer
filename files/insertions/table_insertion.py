@@ -1,12 +1,11 @@
 import sqlite3 
 
-
 def table_initialization():
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()
     
     cursor.execute('''
-    CREATE TABLE Ansatt (
+    CREATE TABLE IF NOT EXISTS Ansatt (
         AnsattID INTEGER NOT NULL,
         Navn VARCHAR(30),
         Email VARCHAR(30) UNIQUE,
@@ -18,7 +17,7 @@ def table_initialization():
         );''')
 
     cursor.execute('''
-    CREATE TABLE Skuespiller (
+    CREATE TABLE IF NOT EXISTS Skuespiller (
         AnsattID INTEGER NOT NULL,
         CONSTRAINT Skuespiller_PK PRIMARY KEY (AnsattID),
         CONSTRAINT Skuespiller_FK FOREIGN KEY (AnsattID) REFERENCES Ansatt(AnsattID) 
@@ -27,7 +26,7 @@ def table_initialization():
         );''')
 
     cursor.execute('''
-    CREATE TABLE Medvirkende (
+    CREATE TABLE IF NOT EXISTS Medvirkende (
         AnsattID INTEGER NOT NULL,
         CONSTRAINT Medvirkende_PK PRIMARY KEY (AnsattID),
         CONSTRAINT Medvirkende_FK
@@ -37,7 +36,7 @@ def table_initialization():
         );''')
 
     cursor.execute('''
-    CREATE TABLE Arbeidsoppgave (
+    CREATE TABLE IF NOT EXISTS Arbeidsoppgave (
         OppgaveID INTEGER NOT NULL,
         Navn VARCHAR(30),
         Beskrivelse VARCHAR(70),
@@ -50,7 +49,7 @@ def table_initialization():
         );''')
 
     cursor.execute('''	
-    CREATE TABLE HarOppgave (
+    CREATE TABLE IF NOT EXISTS HarOppgave (
         OppgaveID INTEGER NOT NULL,
         AnsattID INTEGER NOT NULL,
         CONSTRAINT HarOppgave_PK PRIMARY KEY (OppgaveID, AnsattID),
@@ -64,14 +63,14 @@ def table_initialization():
         );''')
         
     cursor.execute('''
-    CREATE TABLE Rolle (
+    CREATE TABLE IF NOT EXISTS Rolle (
         RolleID INTEGER NOT NULL,
         Navn VARCHAR(30) NOT NULL,
         CONSTRAINT Rolle_PK PRIMARY KEY (RolleID)
         );''')
 
     cursor.execute('''
-    CREATE TABLE HarRolle (
+    CREATE TABLE IF NOT EXISTS HarRolle (
         RolleID INTEGER NOT NULL,
         AnsattID INTEGER NOT NULL,
         CONSTRAINT HarRolle_PK PRIMARY KEY (RolleID, AnsattID),
@@ -85,7 +84,7 @@ def table_initialization():
         );''')
         
     cursor.execute('''
-    CREATE TABLE Akt (
+    CREATE TABLE IF NOT EXISTS Akt (
         TeaterStykkeID INTEGER NOT NULL,
         Nummer INTEGER NOT NULL,
         Name VARCHAR(30) UNIQUE,
@@ -97,7 +96,7 @@ def table_initialization():
         );''')
 
     cursor.execute('''
-    CREATE TABLE RolleIAkt (
+    CREATE TABLE IF NOT EXISTS RolleIAkt (
         RolleID INTEGER NOT NULL,
         TeaterStykkeID INTEGER NOT NULL,
         Nummer INTEGER NOT NULL,
@@ -113,7 +112,7 @@ def table_initialization():
         );''')
         
     cursor.execute('''
-    CREATE TABLE Oppsetning (
+    CREATE TABLE IF NOT EXISTS Oppsetning (
         OppsetningID INTEGER NOT NULL,
         Dato VARCHAR(30) NOT NULL,
         TeaterstykkeID INTEGER NOT NULL,
@@ -125,7 +124,7 @@ def table_initialization():
         );''')
         
     cursor.execute('''
-    CREATE TABLE TeaterStykke (
+    CREATE TABLE IF NOT EXISTS TeaterStykke (
         TeaterStykkeID INTEGER NOT NULL,
         Navn VARCHAR(30) NOT NULL,
         StartTid VARCHAR(30) NOT NULL,
@@ -134,7 +133,7 @@ def table_initialization():
         );''')
 
     cursor.execute('''
-    CREATE TABLE VisesI (
+    CREATE TABLE IF NOT EXISTS VisesI (
         TeaterStykkeID INTEGER NOT NULL,
         SalID INTEGER NOT NULL,
         CONSTRAINT VisesI_PK PRIMARY KEY (TeaterStykkeID, SalID),
@@ -148,7 +147,7 @@ def table_initialization():
         );''')
 
     cursor.execute('''
-    Create Table Sal (
+    CREATE TABLE IF NOT EXISTS Sal (
         SalID INTEGER NOT NULL,
         Navn VARCHAR(30) UNIQUE,
         Kapasitet INTEGER,
@@ -156,32 +155,35 @@ def table_initialization():
         );''')
 
     cursor.execute('''
-    CREATE TABLE Billett (
+    CREATE TABLE IF NOT EXISTS Billett (
         BillettID INTEGER NOT NULL,
-        StolNr INTEGER NOT NULL,
-        RadNr INTEGER NOT NULL,
-        Omraade VARCHAR(30),
+        SalID INTEGER NOT NULL,
+        SeteID INTEGER NOT NULL,
         OppsetningID INTEGER NOT NULL,
         Type VARCHAR(30) NOT NULL,
         OrdreID INTEGER NOT NULL,
         TeaterStykkeID INTEGER NOT NULL,
         CONSTRAINT Billett_PK PRIMARY KEY (BillettID),
-        CONSTRAINT Billett_FK1 FOREIGN KEY (OrdreID) 
+        CONSTRAINT Billett_FK1 FOREIGN KEY (SalID, SeteID) 
+        REFERENCES Sete(SalID, SeteID)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+        CONSTRAINT Billett_FK2 FOREIGN KEY (OrdreID) 
         REFERENCES Ordre(OrdreID)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
-        CONSTRAINT Billett_FK2 FOREIGN KEY (Type, TeaterStykkeID) 
+        CONSTRAINT Billett_FK3 FOREIGN KEY (Type, TeaterStykkeID) 
         REFERENCES BillettType(Type, TeaterStykkeID)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
-        CONSTRAINT Billett_FK3 FOREIGN KEY (OppsetningID) 
+        CONSTRAINT Billett_FK4 FOREIGN KEY (OppsetningID) 
         REFERENCES Oppsetning(OppsetningID)
             ON DELETE CASCADE
             ON UPDATE CASCADE
         );	''')
         
     cursor.execute('''
-    CREATE TABLE BillettType (
+    CREATE TABLE IF NOT EXISTS BillettType (
         Type VARCHAR(30) NOT NULL,
         TeaterStykkeID INTEGER NOT NULL,
         Pris INTEGER NOT NULL,
@@ -193,7 +195,7 @@ def table_initialization():
         );''')
     
     cursor.execute('''
-    CREATE TABLE Ordre (
+    CREATE TABLE IF NOT EXISTS Ordre (
         OrdreID INTEGER NOT NULL,
         Dato VARCHAR(30) NOT NULL,
         Klokkeslett VARCHAR(30) NOT NULL,
@@ -205,7 +207,7 @@ def table_initialization():
         );''')
     
     cursor.execute('''
-    CREATE TABLE Kunde (
+    CREATE TABLE IF NOT EXISTS Kunde (
         KundeID INTEGER NOT NULL,
         TelefonNr INTEGER UNIQUE NOT NULL,
         Navn VARCHAR(30) NOT NULL,
@@ -213,9 +215,24 @@ def table_initialization():
         CONSTRAINT Kunde_PK PRIMARY KEY (KundeID) 
         );''')
     
+    # Ny entitet
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Sete (
+        SalID INTEGER NOT NULL,
+        SeteID INTEGER NOT NULL,
+        RadNr INTEGER NOT NULL,
+        SeteNr INTEGER NOT NULL,
+        OMRÅDE VARCHAR(30),
+        CONSTRAINT Sete_PK PRIMARY KEY (SalID, SeteID),
+        CONSTRAINT Sete_FK FOREIGN KEY (SalID) REFERENCES Sal(SalID)
+            ON DELETE CASCADE 
+            ON UPDATE CASCADE
+        );''')
+
+
     con.commit()
     con.close()
     return None
 
-#table_initialization()
+table_initialization()
 
