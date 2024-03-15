@@ -31,7 +31,7 @@ def getArbeidsOppgave():
     con.close()
     return arbeidsOppgave
 
-# Gets Creates a list of (AnsatteID, OppgaveID)
+# Creates a list of (AnsatteID, OppgaveID)
 def harOppgaveListe():
     rendered_arbeidsOppgaveListe = []
     data = getData(urlKM)
