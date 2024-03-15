@@ -1,9 +1,5 @@
 import sqlite3
-from ansatt_insertion import getData
 
-
-urlKM = "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=kongsemnene"
-urlSAAEK = "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=storst-av-alt-er-kjaerligheten"
 
 def getTeaterStykkeID():
     con = sqlite3.connect("./teater.db")
