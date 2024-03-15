@@ -157,15 +157,14 @@ def table_initialization():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS Billett (
         BillettID INTEGER NOT NULL,
-        SalID INTEGER NOT NULL,
         SeteID INTEGER NOT NULL,
         OppsetningID INTEGER NOT NULL,
         Type VARCHAR(30) NOT NULL,
         OrdreID INTEGER NOT NULL,
         TeaterStykkeID INTEGER NOT NULL,
         CONSTRAINT Billett_PK PRIMARY KEY (BillettID),
-        CONSTRAINT Billett_FK1 FOREIGN KEY (SalID, SeteID) 
-        REFERENCES Sete(SalID, SeteID)
+        CONSTRAINT Billett_FK1 FOREIGN KEY (SeteID) 
+        REFERENCES Sete(SeteID)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
         CONSTRAINT Billett_FK2 FOREIGN KEY (OrdreID) 
@@ -218,12 +217,12 @@ def table_initialization():
     # Ny entitet
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS Sete (
-        SalID INTEGER NOT NULL,
         SeteID INTEGER NOT NULL,
         RadNr INTEGER NOT NULL,
         SeteNr INTEGER NOT NULL,
         OMRÅDE VARCHAR(30),
-        CONSTRAINT Sete_PK PRIMARY KEY (SalID, SeteID),
+        SalID INTEGER NOT NULL,
+        CONSTRAINT Sete_PK PRIMARY KEY (SeteID),
         CONSTRAINT Sete_FK FOREIGN KEY (SalID) REFERENCES Sal(SalID)
             ON DELETE CASCADE 
             ON UPDATE CASCADE
