@@ -73,11 +73,9 @@ def insert_harRolle():
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()   
     oppgaveList = harRolleListe()
-    print(oppgaveList)
     for el in oppgaveList:
         string = f'INSERT INTO HarRolle VALUES ({el[0]},{el[1]})'
         cursor.execute(string)
         con.commit()
     con.close()
     return None
-# insert_harRolle()
