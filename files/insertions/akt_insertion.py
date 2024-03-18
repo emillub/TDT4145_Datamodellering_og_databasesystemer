@@ -25,8 +25,6 @@ def AktList():
 def insert_akt():
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()
-    lstKM = [1,2,3,4,5]
-    lstSAAEK = 1
     TeaterStykker = AktList()
     for el in (TeaterStykker):
         string = f'INSERT INTO Akt VALUES ({el[0]},{el[1]}, "Akt {el[0]}.{el[1]}");'
