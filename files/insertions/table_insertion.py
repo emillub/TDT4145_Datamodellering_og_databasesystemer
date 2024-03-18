@@ -1,4 +1,4 @@
-import sqlite3 
+import sqlite3
 
 # Creates tables in database
 def table_initialization():

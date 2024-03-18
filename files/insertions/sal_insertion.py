@@ -21,3 +21,5 @@ def insert_sal():
     con.commit()
     con.close()
     return None
+
+insert_sal()

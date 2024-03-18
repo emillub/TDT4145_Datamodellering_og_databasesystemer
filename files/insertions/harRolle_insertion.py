@@ -39,6 +39,7 @@ def harRolleListe():
     rendered_relationList = []
     data = getData(urlKM)
     rollerData = data[0]["acf"]["actors_list"]
+    print(data)
     for el in rollerData:
         rendered_relationList.append((el["actor"]["title"]["rendered"],el["sub_title"]))
     for el in rendered_relationList:
@@ -81,3 +82,5 @@ def insert_harRolle():
     con.close()
     return None
 # insert_harRolle()
+
+harRolleListe()
