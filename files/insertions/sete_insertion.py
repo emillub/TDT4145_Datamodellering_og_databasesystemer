@@ -1,13 +1,15 @@
 import sqlite3
 import sys
 sys.path.append('files')
-from common.sql_utils import insertValuesIntoTable
+
 from common.constants import *
+from common.sql_utils import *
+
 
 def insert_seter(sal):
     seteIndex = 1
-    salID = sal['id']
-
+    cond = f'Navn = \"{sal["navn"]}\"'
+    salID = fetchAllValuesFromTable('Sal', 'SalID', cond)[0][0]
     for omraade in sal['omraader']:
         for omradenavn,raderOgSeter in omraade.items():
             omraadeValue = f'"{omradenavn}"'
@@ -31,5 +33,27 @@ def insert_sete(seteIndex,radnr,setenr,omraade,salID : int,):
     seteID = int((str(salID) + str(seteIndex)))
     insertValuesIntoTable("Sete", "(SeteID ,RadNr, SeteNr, Område, SalID)", f'({seteID},{radnr}, {setenr}, {omraade},{salID})')
 
-insert_seter(HOVED_SCENE)
-insert_seter(GAMLE_SCENE)
+def init_sete():
+    con = sqlite3.connect("./teater.db")
+    cursor = con.cursor()
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Sete (
+        SeteID INTEGER NOT NULL,
+        RadNr INTEGER NOT NULL,
+        SeteNr INTEGER NOT NULL,
+        Område VARCHAR(30),
+        SalID INTEGER NOT NULL,
+        CONSTRAINT Sete_PK PRIMARY KEY (SeteID),
+        CONSTRAINT Sete_FK FOREIGN KEY (SalID) REFERENCES Sal(SalID)
+            ON DELETE CASCADE 
+            ON UPDATE CASCADE
+        );''')
+
+    con.commit()
+    con.close
+    
+    insert_seter(HOVED_SCENE)
+    insert_seter(GAMLE_SCENE)
+
+init_sete()
