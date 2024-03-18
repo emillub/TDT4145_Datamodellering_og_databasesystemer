@@ -4,6 +4,7 @@ from ansatt_insertion import getData
 urlKM = "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=kongsemnene"
 urlSAAEK = "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=storst-av-alt-er-kjaerligheten"
 
+# Makes API call to retreive arbeidsOppgaver in a list format
 def getArbeidsOppgave():
     rendered_arbeidsOppgave_list = []
     data = getData(urlKM)
@@ -17,6 +18,7 @@ def getArbeidsOppgave():
         rendered_arbeidsOppgave_list.append((el["sub_title"],2))
     return rendered_arbeidsOppgave_list
 
+# Inserts arbeidsoppgaver into database
 def insert_arbeidsoppgaver():
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()
@@ -28,4 +30,3 @@ def insert_arbeidsoppgaver():
     con.close()
     return None
         
-#insert_arbeidsoppgaver()

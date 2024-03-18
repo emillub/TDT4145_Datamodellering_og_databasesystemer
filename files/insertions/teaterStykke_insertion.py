@@ -2,6 +2,7 @@ import sqlite3
 
 
 
+# Inserts teaterstykke into database
 def insert_teaterStykke():
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()
@@ -16,4 +17,3 @@ def insert_teaterStykke():
     con.close()
     return None
 
-#insert_teaterStykke()
