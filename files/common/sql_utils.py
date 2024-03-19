@@ -16,7 +16,7 @@ def insertValuesIntoTable(table, valueNames, values):
         print(e)
     con.close()
 
-def fetchAllValuesFromTable(table, values, condition = None):
+def selectValuesFromTable(table, values, condition = None):
     con = sqlite3.connect(DATABASE_PATH)
     cursor = con.cursor()
     command = f'SELECT {values} FROM {table}'

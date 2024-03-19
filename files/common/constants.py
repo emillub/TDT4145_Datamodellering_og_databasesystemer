@@ -1,4 +1,14 @@
 DATABASE_PATH = './teater.db'
+HOVEDSCENEN_FIL ='txt/hovedscenen.txt'
+GAMLE_SCENE_FIL ='txt/gamle-scene.txt'
+
+ORDNIAER = 'Ordinær'
+HONNOR = 'Honnør'
+STUDENT = 'Student'
+BARN = 'Barn'
+GRUPPE_10 = 'Gruppe 10'
+GRUPPE_10_HONNOR = 'Gruppe honnør 10'
+
 
 #Teaterstykker
 # Format: {
@@ -8,8 +18,6 @@ DATABASE_PATH = './teater.db'
 #     omraader : liste over områder på formatet:
 #       { områdenavn : (rader, seterPerRad)} eller
 #       { områdenavn : [Rad1AntallSeter,Rad2AntallSeter...]}
-# 
-#          
 # }
 
 
@@ -18,9 +26,10 @@ HOVED_SCENE = {
     'navn' : "Hovedscenen",
     'kapasitet' : 524,
     'omraader' : [
-        {'' : (18,28)},
-        {'Galleri' : (4,5)}
-        ]}
+        {'Parkett' : (18,28)},
+        {'Galleri' : (4,5)}],
+    'blankeSeter' : [467,468, 469,470,495, 496,497, 498]
+}
 
 GAMLE_SCENE = {
     'id' : 2,
@@ -59,7 +68,9 @@ SALER = [HOVED_SCENE, GAMLE_SCENE, STUDIO_SCENEN, TEATER_KJELLEREN, TEATER_CAFEE
 #     navn: tittel på stykke,
 #     startTid : klokkeslett,
 #     forfatter : navn på forfatter,
+#     visesI : Hvilken sal det vises i
 #     akter : liste over akt navn, dersom en akt heter '' kalles den Akt + aktid,
+#     rolleIAkt : map over roller og hvilke akter de er med i
 # }
 
 KONGSEMNENE = {
@@ -70,7 +81,7 @@ KONGSEMNENE = {
     'forfatter' : "Henrik Ibsen",
     'akter' : ['','','','',''],
     'visesI' : HOVED_SCENE,
-    'oppsetninger' : ["1. februar", "2. februar", "3. februar", "5. februar", "6. februar"],
+    'oppsetninger' : ["2024-02-1", "2024-02-02", "2024-02-03", "2024-02-05", "2024-02-06"],
     'rolleIAkt': {
         "Haakon Haakonssønn" : {1,2,3,4,5},
         "Inga fra Vartejg (Haakons mor)" : {1,3},
@@ -87,6 +98,14 @@ KONGSEMNENE = {
         "Dagfinn Bonde" : {1,2,3,4,5},
         "Peter (prest og Ingebjørgs sønn)" : {3,4,5},    
         "Trønder" : {2,3,4}
+    },
+    'priser' : {
+        ORDNIAER: 450,
+        HONNOR: 380,
+        STUDENT: 280,
+        BARN: 280,
+        GRUPPE_10: 420,
+        GRUPPE_10_HONNOR: 360 
     }
 }
 
@@ -98,19 +117,25 @@ STORST_AV_ALT_ER_KJAERLIGHETEN = {
     'forfatter' : "Jonas Corell Petersen",
     'akter' : [''],
     'visesI' : GAMLE_SCENE,
-    'oppsetninger' : ["3. februar", "6. februar", "7. februar", "12. februar", "13. februar", "14. februar"],
+    'oppsetninger' : ["2024-02-03", "2024-02-06", "2024-02-07", "2024-02-12", "2024-02-13", "2024-02-14"],
     'rolleIAkt' : {
         "Sunniva Du Mond Nordal" : {1},
         "Jo Saberniak" : {1},
         "Marte M. Steinholt" : {1},
         "Tor Ivar Hagen" : {1},
         "Trond-Ove Skrødal" : {1},
-        "Natalie Grøndahl": {1},
+        "Natalie Grøndahl Tangen": {1},
         "Åsmund Flaten" : {1} 
+    },
+    'priser' : {
+        ORDNIAER: 350,
+        HONNOR: 300,
+        STUDENT: 220,
+        BARN: 220,
+        GRUPPE_10: 320,
+        GRUPPE_10_HONNOR: 270
     }
 }
-
-
 
 TEATERSTYKKER = [KONGSEMNENE, STORST_AV_ALT_ER_KJAERLIGHETEN]
 

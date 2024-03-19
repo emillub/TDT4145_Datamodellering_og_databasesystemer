@@ -6,7 +6,7 @@ from common.sql_utils import *
 def insert_roller(skuespiller, ansattID,teaterStykke):
     for rolleNavn in skuespiller['roller']:
             insertValuesIntoTable('Rolle', '(Navn)', f'("{rolleNavn}")')
-            rolleID = fetchAllValuesFromTable('Rolle', 'RolleID', f'Navn = "{rolleNavn}"')[0][0]
+            rolleID = selectValuesFromTable('Rolle', 'RolleID', f'Navn = "{rolleNavn}"')[0][0]
             insertValuesIntoTable('HarRolle', '(RolleID,AnsattID)',f'({rolleID},{ansattID})')
             insert_RolleIAkt(rolleNavn,rolleID,teaterStykke)
             
