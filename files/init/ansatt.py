@@ -28,7 +28,7 @@ def insert_ansatte(ansatte, erSkuespillere, teaterStykke):
                         WHERE NOT EXISTS (SELECT 1 FROM ANSATT WHERE Navn = '{navn}');
                                '''
         manualCommandSqlInsert(insertCommand)
-        ansattID = fetchAllValuesFromTable('Ansatt', 'AnsattID', f'Navn = "{navn}"')[0][0]
+        ansattID = selectValuesFromTable('Ansatt', 'AnsattID', f'Navn = "{navn}"')[0][0]
         insertValuesIntoTable(tabellNavn, '(AnsattID)', f'({ansattID})')
         if erSkuespillere:
             insert_roller(skuespiller=ansatt, ansattID=ansattID, teaterStykke=teaterStykke)

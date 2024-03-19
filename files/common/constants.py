@@ -88,6 +88,13 @@ KONGSEMNENE = {
         "Dagfinn Bonde" : {1,2,3,4,5},
         "Peter (prest og Ingebjørgs sønn)" : {3,4,5},    
         "Trønder" : {2,3,4}
+    },
+    'priser' : {
+        'Ordinær': 450,
+        'Honnør': 380,
+        'Student': 280,
+        'Gruppe 10': 420,
+        'Gruppe honnør 10': 360 
     }
 }
 
@@ -108,6 +115,14 @@ STORST_AV_ALT_ER_KJAERLIGHETEN = {
         "Trond-Ove Skrødal" : {1},
         "Natalie Grøndahl Tangen": {1},
         "Åsmund Flaten" : {1} 
+    },
+    'priser' : {
+        'Ordinær': 350,
+        'Honnør': 300,
+        'Student': 220,
+        'Barn': 220,
+        'Gruppe 10': 320,
+        'Gruppe honnør 10': 270
     }
 }
 
