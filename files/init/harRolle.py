@@ -1,6 +1,4 @@
 import sqlite3
-from ansatt_insertion import getData
-from rolle_insertion import getRoller
 
 urlKM = "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=kongsemnene"
 urlSAAEK = "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=storst-av-alt-er-kjaerligheten"
@@ -37,7 +35,7 @@ def harRolleListe():
     Skuespillere = getSkuespiller()
     roller = hentRolle()
     rendered_relationList = []
-    data = getData(urlKM)
+    data = fetchData(urlKM)
     rollerData = data[0]["acf"]["actors_list"]
     for el in rollerData:
         rendered_relationList.append((el["actor"]["title"]["rendered"],el["sub_title"]))
@@ -69,7 +67,7 @@ def harRolleListe():
     return correct_list
 
 # Insert rolle into database
-def insert_harRolle():
+def init_harRolle():
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()   
     oppgaveList = harRolleListe()

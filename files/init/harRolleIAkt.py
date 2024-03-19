@@ -1,6 +1,4 @@
 import sqlite3
-from ansatt_insertion import getData
-from harRolle_insertion import hentRolle
 
 urlKM = "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=kongsemnene"
 urlSAAEK = "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=storst-av-alt-er-kjaerligheten"
@@ -35,7 +33,7 @@ rollerIAktSAAEK = {
 
 
 
-def insert_RolleIAkt():
+def init_RolleIAkt():
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()
     roller = hentRolle()
