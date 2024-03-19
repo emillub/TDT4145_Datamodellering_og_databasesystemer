@@ -8,8 +8,6 @@ DATABASE_PATH = './teater.db'
 #     omraader : liste over områder på formatet:
 #       { områdenavn : (rader, seterPerRad)} eller
 #       { områdenavn : [Rad1AntallSeter,Rad2AntallSeter...]}
-# 
-#          
 # }
 
 
@@ -59,7 +57,9 @@ SALER = [HOVED_SCENE, GAMLE_SCENE, STUDIO_SCENEN, TEATER_KJELLEREN, TEATER_CAFEE
 #     navn: tittel på stykke,
 #     startTid : klokkeslett,
 #     forfatter : navn på forfatter,
+#     visesI : Hvilken sal det vises i
 #     akter : liste over akt navn, dersom en akt heter '' kalles den Akt + aktid,
+#     rolleIAkt : map over roller og hvilke akter de er med i
 # }
 
 KONGSEMNENE = {
