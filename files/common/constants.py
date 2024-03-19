@@ -70,7 +70,24 @@ KONGSEMNENE = {
     'forfatter' : "Henrik Ibsen",
     'akter' : ['','','','',''],
     'visesI' : HOVED_SCENE,
-    'oppsetninger' : ["1. februar", "2. februar", "3. februar", "5. februar", "6. februar"]
+    'oppsetninger' : ["1. februar", "2. februar", "3. februar", "5. februar", "6. februar"],
+    'rolleIAkt': {
+        "Haakon Haakonssønn" : {1,2,3,4,5},
+        "Inga fra Vartejg (Haakons mor)" : {1,3},
+        "Skule jarl" : {1,2,3,4,5},
+        "Fru Ragnhild (Skules hustru)" : {1,5},
+        "Margrete (Skules datter)" : {1,2,3,4,5},
+        "Sigrid (Skules søster)": {1,2,5},
+        "Ingebjørg" : {4},
+        "Biskop Nikolas" : {1,2,3},
+        "Gregorius Jonssønn" : {1,2,3,4,5},
+        "Paal Flida" : {1,2,3,4,5},
+        "Baard Bratte" : {2},
+        "Jatgeir Skald": {4},
+        "Dagfinn Bonde" : {1,2,3,4,5},
+        "Peter (prest og Ingebjørgs sønn)" : {3,4,5},    
+        "Trønder" : {2,3,4}
+    }
 }
 
 STORST_AV_ALT_ER_KJAERLIGHETEN = {
@@ -81,8 +98,19 @@ STORST_AV_ALT_ER_KJAERLIGHETEN = {
     'forfatter' : "Jonas Corell Petersen",
     'akter' : [''],
     'visesI' : GAMLE_SCENE,
-    'oppsetninger' : ["3. februar", "6. februar", "7. februar", "12. februar", "13. februar", "14. februar"]
+    'oppsetninger' : ["3. februar", "6. februar", "7. februar", "12. februar", "13. februar", "14. februar"],
+    'rolleIAkt' : {
+        "Sunniva Du Mond Nordal" : {1},
+        "Jo Saberniak" : {1},
+        "Marte M. Steinholt" : {1},
+        "Tor Ivar Hagen" : {1},
+        "Trond-Ove Skrødal" : {1},
+        "Natalie Grøndahl": {1},
+        "Åsmund Flaten" : {1} 
+    }
 }
+
+
 
 TEATERSTYKKER = [KONGSEMNENE, STORST_AV_ALT_ER_KJAERLIGHETEN]
 
