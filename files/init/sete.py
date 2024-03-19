@@ -16,14 +16,14 @@ def init_seter(sal):
             if isinstance(raderOgSeter,tuple):
                 rader = raderOgSeter[0]
                 seter = raderOgSeter[1]
-                for r in range (rader):
+                for radNr in range (rader):
                     for s in range (seter):
-                        insert_sete(seteIndexISal,radnr=r+1, setenr=s+1, omraade=omraadeValue, sal=sal)
+                        insert_sete(seteIndexISal,radnr=radNr+1, setenr=s+1, omraade=omraadeValue, sal=sal)
                         seteIndexISal+=1
             else:
-                for r in raderOgSeter:
-                    for s in range(r):
-                        insert_sete(seteIndexISal,radnr=r+1, setenr=s+1, omraade=omraadeValue, sal=sal)
+                for radNr,antallSeter in enumerate(raderOgSeter):
+                    for s in range(antallSeter):
+                        insert_sete(seteIndexISal,radNr+1, setenr=s+1, omraade=omraadeValue, sal=sal)
                         seteIndexISal+=1
 
 def insert_sete(seteIndexISal,radnr,setenr,omraade,sal):
@@ -31,5 +31,7 @@ def insert_sete(seteIndexISal,radnr,setenr,omraade,sal):
     seteID = int(str(sal['id']) + str(seteIndexISal).zfill(antallSiffer))
     if(sal == HOVED_SCENE):
         setenr = seteIndexISal
-
+        if setenr in HOVED_SCENE['blankeSeter']:
+            return
+        
     insertValuesIntoTable("Sete", "(SeteID ,RadNr, SeteNr, Område, SalID)", f'({seteID},{radnr}, {setenr}, {omraade},{sal["id"]})')
