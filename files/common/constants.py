@@ -72,6 +72,7 @@ KONGSEMNENE = {
     'visesI' : HOVED_SCENE,
     'oppsetninger' : ["1. februar", "2. februar", "3. februar", "5. februar", "6. februar"]
 }
+
 STORST_AV_ALT_ER_KJAERLIGHETEN = {
     'id' : 2,
     'apiURL' : "https://www.trondelag-teater.no/wp-json/wp/v2/performances?slug=storst-av-alt-er-kjaerligheten",

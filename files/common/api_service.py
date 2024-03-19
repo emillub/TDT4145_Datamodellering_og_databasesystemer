@@ -1,8 +1,6 @@
-# Makes API call
 import requests
-import constants
 
-
+# Henter data fra API
 def fetchData(url):
     response = requests.get(url)
     return response.json()
@@ -14,12 +12,13 @@ def fetchAnsatteData(teaterStykke):
     actorDataList = data[0]["acf"]["actors_list"]
     for index,skuespiller in enumerate(actorDataList):
         navn = skuespiller["actor"]["title"]["rendered"]
-        rolle = skuespiller["sub_title"]
-        if rolle == '':
-            rolle = navn
-        print(rolle)
+        rolleData = skuespiller["sub_title"]
+        if rolleData == '':
+            roller = [navn]
+        else:
+            roller = [rolle.strip() for rolle in rolleData.split("/")]
         skuespillere.append({'navn' : navn,
-                            'rolle' : rolle,
+                            'roller' : roller,
                             'id' : index+1})
     
     medvirkende = []
@@ -32,5 +31,3 @@ def fetchAnsatteData(teaterStykke):
                             'id' : len(skuespillere)+index+1})
         
     return {'skuespillere': skuespillere, 'medvirkende' : medvirkende}
-
-fetchAnsatteData(constants.KONGSEMNENE)
