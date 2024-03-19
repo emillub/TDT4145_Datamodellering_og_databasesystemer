@@ -4,3 +4,5 @@ teater.db
 files/common/__pycache__/sql_utils.cpython-39.pyc
 files/common/__pycache__/__init__.cpython-39.pyc
 files/common/__pycache__/constants.cpython-39.pyc
+files/common/__pycache__
+files/init/__pycache__
