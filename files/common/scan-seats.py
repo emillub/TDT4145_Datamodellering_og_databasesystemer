@@ -5,7 +5,7 @@
     fil (str): Stien til filen som skal leses
 
     Returnerer:
-    solgteSeter (Dict): Dictionary for solgte seter i en gitt oppsetning på formatet {dato: {område: [(radnr,setenr)]}}
+    solgteStolr (Dict): Dictionary for solgte seter i en gitt oppsetning på formatet {dato: {område: [(radnr,setenr)]}}
 """
 
 import sqlite3
@@ -31,13 +31,13 @@ def scanHovedScenen():
                     dato = rad.strip('Dato ')
                     forestillinger[dato] = {
                         'sal' : 'Hovedscenen',
-                        'solgteSeter' : {},
-                        'xSeter' : {}
+                        'solgteStolr' : {},
+                        'xStolr' : {}
                     }
                 else:
                     omraade = rad
-                    forestillinger[dato]['solgteSeter'][omraade] = []
-                    forestillinger[dato]['xSeter'][omraade] = []
+                    forestillinger[dato]['solgteStolr'][omraade] = []
+                    forestillinger[dato]['xStolr'][omraade] = []
                     print(f"Område: {rad}")
                 continue
 
@@ -46,9 +46,9 @@ def scanHovedScenen():
             for seteIndex,sete in enumerate(rad):
                 seteNr = kapasitet-stolerIForegaendeRader-seteIndex
                 if sete == '1':
-                    forestillinger[dato]['solgteSeter'][omraade].append((radIndexOffset-radIndex, seteNr))
+                    forestillinger[dato]['solgteStolr'][omraade].append((radIndexOffset-radIndex, seteNr))
                 elif sete == 'x':
-                    forestillinger[dato]['xSeter'][omraade].append((radIndexOffset-radIndex, seteNr))
+                    forestillinger[dato]['xStolr'][omraade].append((radIndexOffset-radIndex, seteNr))
             stolerIForegaendeRader+=len(rad)
         f.close()
     return forestillinger
@@ -74,37 +74,37 @@ def scanGamleScenen():
                     dato = linje.strip('Dato ')
                     forestillinger[dato] = {
                         'sal' : 'Hovedscenen',
-                        'solgteSeter' : {},
-                        'xSeter' : {}
+                        'solgteStolr' : {},
+                        'xStolr' : {}
                     }
                 else:
                     if omraade is not None: 
                         radIndexOffset = radIndex
 
                     omraade = linje
-                    forestillinger[dato]['solgteSeter'][omraade] = []
-                    forestillinger[dato]['xSeter'][omraade] = []
+                    forestillinger[dato]['solgteStolr'][omraade] = []
+                    forestillinger[dato]['xStolr'][omraade] = []
                     print(f"Område: {linje}")
                 continue
 
             for seteIndex,sete in enumerate(linje):
                 seteNr = seteIndex-seteIndexOffset
                 radNr = radIndex-radIndexOffset
-                insertSete(0,radNr,seteNr,omraade)
+                insertStol(0,radNr,seteNr,omraade)
                 if(sete == '1'):
-                    forestillinger[dato]['solgteSeter'][omraade].append((radNr, seteNr))
+                    forestillinger[dato]['solgteStolr'][omraade].append((radNr, seteNr))
         return forestillinger
 
-def insertSete(salId, radnr, setenr,omrade):
+def insertStol(salId, radnr, setenr,omrade):
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()
 
     cursor.execute('''
-            SELECT COUNT(*) FROM Sete;
+            SELECT COUNT(*) FROM Stol;
         ''')
     try:
         cursor.execute(f'''
-                    INSERT INTO Sete (RadNR, SeteNR, Område, SalID) VALUES {int(radnr)},{int(setenr)},"{omrade}", {salId});
+                    INSERT INTO Stol (RadNR, StolNR, Område, SalID) VALUES {int(radnr)},{int(setenr)},"{omrade}", {salId});
                     ''')
     except:
         print("Error")
@@ -135,7 +135,7 @@ def insertBillett(seteID,oppsetningID,type,ordreID,teaterStykkeID):
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()
     cursor.execute(f'''
-                INSERT INTO BILLETT (SeteID,OppsetningID,Type,OrdreID,TeaterStykkeID) VALUES ({seteID},{oppsetningID},{type},{ordreID},{teaterStykkeID});
+                INSERT INTO BILLETT (StolID,OppsetningID,Type,OrdreID,TeaterStykkeID) VALUES ({seteID},{oppsetningID},{type},{ordreID},{teaterStykkeID});
                 ''')
     con.commit()
     con.close()
@@ -153,4 +153,4 @@ insertDefaultOrdre()
             
             
 
-# print(lesSolgteSeterFraFil('txt/hovedscenen.txt',False))
+# print(lesSolgteStolrFraFil('txt/hovedscenen.txt',False))

@@ -1,6 +1,8 @@
-import sqlite3 
+import sqlite3
 
-def table_initialization():
+
+# Creates tables in database
+def init_table():
     con = sqlite3.connect("./teater.db")
     cursor = con.cursor()
     
@@ -87,7 +89,7 @@ def table_initialization():
     CREATE TABLE IF NOT EXISTS Akt (
         TeaterStykkeID INTEGER NOT NULL,
         Nummer INTEGER NOT NULL,
-        Name VARCHAR(30) UNIQUE,
+        Navn VARCHAR(30),
         CONSTRAINT Akt_PK PRIMARY KEY (TeaterStykkeID, Nummer),
         CONSTRAINT Akt_FK FOREIGN KEY (TeaterStykkeID) 
         REFERENCES TeaterStykke(TeaterStykkeID) 
@@ -111,17 +113,7 @@ def table_initialization():
             ON UPDATE CASCADE
         );''')
         
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS Oppsetning (
-        OppsetningID INTEGER NOT NULL,
-        Dato VARCHAR(30) NOT NULL,
-        TeaterstykkeID INTEGER NOT NULL,
-        CONSTRAINT Oppsetning_PK PRIMARY KEY (OppsetningID),
-        CONSTRAINT Oppsetning_FK FOREIGN KEY (TeaterstykkeID) 
-        REFERENCES TeaterStykke (TeaterStykkeID) 
-            ON DELETE CASCADE 
-            ON UPDATE CASCADE
-        );''')
+
         
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS TeaterStykke (
@@ -129,22 +121,27 @@ def table_initialization():
         Navn VARCHAR(30) NOT NULL,
         StartTid VARCHAR(30) NOT NULL,
         Forfatter VARCHAR(30),
-        CONSTRAINT TeaterStykkeID_PK PRIMARY KEY (TeaterStykkeID)
-        );''')
-
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS VisesI (
-        TeaterStykkeID INTEGER NOT NULL,
-        SalID INTEGER NOT NULL,
-        CONSTRAINT VisesI_PK PRIMARY KEY (TeaterStykkeID, SalID),
-        CONSTRAINT VisesI_FK1 FOREIGN KEY (TeaterStykkeID) 
-        REFERENCES TeaterStykke (TeaterStykkeID) 
-            ON DELETE CASCADE 
-            ON UPDATE CASCADE,
-        Constraint VisesI_FK2 FOREIGN KEY (SalID) REFERENCES Sal(SalID) 
+        VisesISal INTEGER NOT NULL,
+        CONSTRAINT TeaterStykke_PK PRIMARY KEY (TeaterStykkeID),
+        CONSTRAINT TeaterStykke_FK FOREIGN KEY (VisesISal) 
+        REFERENCES Sal (SalID) 
             ON DELETE CASCADE 
             ON UPDATE CASCADE
         );''')
+
+    # cursor.execute('''
+    # CREATE TABLE IF NOT EXISTS VisesI (
+    #     TeaterStykkeID INTEGER NOT NULL,
+    #     SalID INTEGER NOT NULL,
+    #     CONSTRAINT VisesI_PK PRIMARY KEY (TeaterStykkeID, SalID),
+    #     CONSTRAINT VisesI_FK1 FOREIGN KEY (TeaterStykkeID) 
+    #     REFERENCES TeaterStykke (TeaterStykkeID) 
+    #         ON DELETE CASCADE 
+    #         ON UPDATE CASCADE,
+    #     Constraint VisesI_FK2 FOREIGN KEY (SalID) REFERENCES Sal(SalID) 
+    #         ON DELETE CASCADE 
+    #         ON UPDATE CASCADE
+    #     );''')
 
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS Sal (
@@ -152,6 +149,18 @@ def table_initialization():
         Navn VARCHAR(30) UNIQUE,
         Kapasitet INTEGER,
             CONSTRAINT Sal_PK PRIMARY KEY (SalID)
+        );''')
+    
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Oppsetning (
+        OppsetningID INTEGER NOT NULL,
+        Dato VARCHAR(30) NOT NULL,
+        TeaterStykkeID INTEGER NOT NULL,
+        CONSTRAINT Oppsetning_PK PRIMARY KEY (OppsetningID),
+        CONSTRAINT Oppsetning_FK FOREIGN KEY (TeaterstykkeID) 
+        REFERENCES TeaterStykke (TeaterStykkeID) 
+            ON DELETE CASCADE 
+            ON UPDATE CASCADE
         );''')
 
     cursor.execute('''
@@ -232,6 +241,3 @@ def table_initialization():
     con.commit()
     con.close()
     return None
-
-table_initialization()
-
