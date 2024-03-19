@@ -9,3 +9,6 @@ from common.sql_utils import *
 def init_teaterStykke(teaterStykke):
     visesISal = teaterStykke['visesI']['id']
     insertValuesIntoTable("TeaterStykke", '(TeaterStykkeID, Navn, StartTid, Forfatter, VisesISal)', f'({teaterStykke["id"]},\"{teaterStykke["navn"]}\", \"{teaterStykke["startTid"]}\",\"{teaterStykke["forfatter"]}\",{visesISal})')
+
+def getTeaterStykkeIDFraSalID(salID):
+    return selectValuesFromTable('TeaterStykke', 'TeaterStykkeID', f'VisesISal = {salID}')[0][0]

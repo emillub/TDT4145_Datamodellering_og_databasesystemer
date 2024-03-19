@@ -1,4 +1,14 @@
 DATABASE_PATH = './teater.db'
+HOVEDSCENEN_FIL ='txt/hovedscenen.txt'
+GAMLE_SCENE_FIL ='txt/gamle-scene.txt'
+
+ORDNIAER = 'Ordinær'
+HONNOR = 'Honnør'
+STUDENT = 'Student'
+BARN = 'Barn'
+GRUPPE_10 = 'Gruppe 10'
+GRUPPE_10_HONNOR = 'Gruppe honnør 10'
+
 
 #Teaterstykker
 # Format: {
@@ -90,11 +100,12 @@ KONGSEMNENE = {
         "Trønder" : {2,3,4}
     },
     'priser' : {
-        'Ordinær': 450,
-        'Honnør': 380,
-        'Student': 280,
-        'Gruppe 10': 420,
-        'Gruppe honnør 10': 360 
+        ORDNIAER: 450,
+        HONNOR: 380,
+        STUDENT: 280,
+        BARN: 280,
+        GRUPPE_10: 420,
+        GRUPPE_10_HONNOR: 360 
     }
 }
 
@@ -117,12 +128,12 @@ STORST_AV_ALT_ER_KJAERLIGHETEN = {
         "Åsmund Flaten" : {1} 
     },
     'priser' : {
-        'Ordinær': 350,
-        'Honnør': 300,
-        'Student': 220,
-        'Barn': 220,
-        'Gruppe 10': 320,
-        'Gruppe honnør 10': 270
+        ORDNIAER: 350,
+        HONNOR: 300,
+        STUDENT: 220,
+        BARN: 220,
+        GRUPPE_10: 320,
+        GRUPPE_10_HONNOR: 270
     }
 }
 

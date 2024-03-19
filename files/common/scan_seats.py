@@ -5,9 +5,6 @@ from common.sql_utils import *
 from init.sal import getSalIDFraNavn, getSalKapasitet
 from init.sete import getAntallRaderForOmraade, getAntallRaderPerOmraade
 
-HOVEDSCENEN_FIL ='txt/hovedscenen.txt'
-GAMLE_SCENE_FIL ='txt/gamle-scene.txt'
-
 def inneholderOmraderEllerDato(line):
     return any((not c.isdigit() and c!='x') for c in line) # Sjekker om linje inneholder dato eller område
 
@@ -50,13 +47,11 @@ def scanFil(fil):
                 seteNr +=1 
                 if resetStolNrPerRad:
                     seteNr = seteIndex +1
-                print(radNr, kapasitet - telteSeter)
                 if(sete == '1'):
                     oppsetning['solgteSeter'].append((radNr,seteNr,omraade,sal['id']))
                 telteSeter += 1
             radNr-=1
-                
-        print(oppsetning)
+    return oppsetning
 
                 
 

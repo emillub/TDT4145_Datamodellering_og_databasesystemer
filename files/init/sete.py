@@ -41,3 +41,10 @@ def getAntallRaderPerOmraade(salid):
 
 def getAntallRaderForOmraade(salid, omraade):
     return manualCommanSqlSelect(f'SELECT COUNT(DISTINCT RadNr) FROM Sete WHERE (SalID = {salid} AND Område = "{omraade}") GROUP BY Område')[0][0]
+
+def getSeteIDFromSete(sete):
+    radnr = sete[0]
+    setenr = sete[1]
+    omraade = sete[2]
+    salid = sete[3]
+    return selectValuesFromTable('Sete', 'SeteID', f'(RadNr = {radnr} AND SeteNr = {setenr} AND Område = "{omraade}" AND SalID = {salid})')[0][0]
