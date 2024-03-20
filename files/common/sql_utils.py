@@ -13,6 +13,8 @@ def insertValuesIntoTable(table, valueNames, values):
         cursor.execute(command)
         con.commit()
     except Exception as e:
+        print(command)
+
         print(e)
     con.close()
 
@@ -26,28 +28,32 @@ def selectValuesFromTable(table, values, condition = None):
         cursor.execute(command)
         res = cursor.fetchall()
     except Exception as e:
+        print(command)
         print(e)
         res = None
     con.close()
     return res
 
-def manualCommandSqlInsert(command):
+def manualInsert(command):
     con = sqlite3.connect(DATABASE_PATH)
     cursor = con.cursor()
     try:
         cursor.execute(command)
         con.commit()
     except Exception as e:
+        print(command)
         print(e)
     con.close()
 
-def manualCommanSqlSelect(command):
+def manualSelect(command):
     con = sqlite3.connect(DATABASE_PATH)
     cursor = con.cursor()
     try:
         cursor.execute(command)
         res = cursor.fetchall()
+
     except Exception as e:
+        print(command)
         print(e)
         res = None
     con.close()
@@ -60,7 +66,7 @@ def hentForestillingOgSolgteBilletter(dato="YYYY-MM-DD"):
                 LEFT JOIN Billett USING (OppsetningID)
                 WHERE Dato = "{dato}" GROUP BY OppsetningID;
                 '''
-    res = manualCommanSqlSelect(string)
+    res = manualSelect(string)
     return res
 
 def hentTeaterstykkeSkueSpillerRolle():
@@ -74,7 +80,7 @@ def hentTeaterstykkeSkueSpillerRolle():
                 GROUP BY R.Navn
                 ORDER BY TS.Navn, Ansatt.Navn;
                     '''
-    res = manualCommanSqlSelect(string)
+    res = manualSelect(string)
     return res
 
 def bestSolgtForestilling():
@@ -85,7 +91,7 @@ def bestSolgtForestilling():
                 GROUP BY O.OppsetningID
                 ORDER BY AntallSolgtePlasser DESC;
                 '''
-    res =manualCommanSqlSelect(string)
+    res =manualSelect(string)
     return res
 
 def hentSkuespillereISammeAktogStykke(navn):
@@ -97,7 +103,7 @@ def hentSkuespillereISammeAktogStykke(navn):
                 JOIN TeaterStykke AS TS ON (TS.TeaterStykkeID = RA.TeaterStykkeID)
                 ORDER BY RA.TeaterStykkeID, AktNummer
                 '''
-    res = manualCommanSqlSelect(kommando)
+    res = manualSelect(kommando)
     lst = []
     lst2 = []
     for i in res:
