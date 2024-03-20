@@ -59,6 +59,8 @@ def manualSelect(command):
     con.close()
     return res
 
+# Funksjoner for brukerhistorier 4-7 under
+
 def hentForestillingOgSolgteBilletter(dato="YYYY-MM-DD"):
     string = f'''SELECT Navn, COUNT (DISTINCT BillettID) AS SolteBilletter
                 FROM Oppsetning 
@@ -71,13 +73,12 @@ def hentForestillingOgSolgteBilletter(dato="YYYY-MM-DD"):
 
 def hentTeaterstykkeSkueSpillerRolle():
     string = f'''
-                SELECT  TS.Navn, Ansatt.Navn, R.Navn 
+                SELECT DISTINCT TS.Navn, Ansatt.Navn, R.Navn 
                 from Ansatt
                 JOIN HarRolle AS HR ON HR.AnsattID = Ansatt.AnsattID
                 JOIN Rolle AS R USING(RolleID)
                 JOIN RolleIAkt AS RIA USING (RolleID)
                 JOIN TeaterStykke AS TS USING (TeaterStykkeID)
-                GROUP BY R.Navn
                 ORDER BY TS.Navn, Ansatt.Navn;
                     '''
     res = manualSelect(string)

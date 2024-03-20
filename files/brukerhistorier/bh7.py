@@ -5,7 +5,7 @@ from common.sql_utils import hentSkuespillereISammeAktogStykke
 
 
 #Her kan man endre skuespillernavn for å se medskuespillere og teaterstykke. 
-navn = 'Sunniva Du Mond Nordal'
+navn = 'Jo Saberniak'
 SkuespillereOgStykke = hentSkuespillereISammeAktogStykke(navn)
 
 print(f'Skuespiller: {navn}:')

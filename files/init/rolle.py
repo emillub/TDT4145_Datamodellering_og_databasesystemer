@@ -10,6 +10,10 @@ def insert_roller(skuespiller, ansattID,teaterStykke):
             insertValuesIntoTable('HarRolle', '(RolleID,AnsattID)',f'({rolleID},{ansattID})')
             insert_RolleIAkt(rolleNavn,rolleID,teaterStykke)
             
+def getRolleIAkt(rolleID,nummer,teaterStykkeID):
+    string = f'SELECT * from RolleIAkt where (RolleID="{rolleID}" AND TeaterStykkeID={teaterStykkeID} AND Nummer={nummer});'
+    res = manualSelect(string)
+    return res
 
 def insert_RolleIAkt(rollenavn,rolleID,teaterStykke):
     if len(teaterStykke['akter']) == 1:
@@ -17,5 +21,6 @@ def insert_RolleIAkt(rollenavn,rolleID,teaterStykke):
     else: 
         deltarIAkter = teaterStykke['rolleIAkt'][rollenavn]
     for aktNummer in deltarIAkter:
-         insertValuesIntoTable('RolleIAkt', '(RolleID, TeaterStykkeID, Nummer)', f'({rolleID},{teaterStykke["id"]}, {aktNummer})')
+        if len(getRolleIAkt(rolleID,aktNummer,teaterStykke["id"]))==0:
+            insertValuesIntoTable('RolleIAkt', '(RolleID, TeaterStykkeID, Nummer)', f'({rolleID},{teaterStykke["id"]}, {aktNummer})')
     

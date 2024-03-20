@@ -37,7 +37,6 @@ velgRad = 'Velg en rad ved å skrive inn tallet til venstre for raden: '
 while True:
     try:
         omraadeOgrad = ledigerader[int(input(velgRad))]
-        print(omraadeOgrad)
     except:
         print("Oops noe gikk galt")
         continue
@@ -50,7 +49,7 @@ while True:
         if len(billetter) == antallBilletter:
             break
     
-    print(f"Kjøpte {antallBilletter} til {STORST_AV_ALT_ER_KJAERLIGHETEN['navn']} i område {omraadeOgrad[0]} på rad {omraadeOgrad[1]}")
+    print(f"Kjøpte {antallBilletter} billetter til {STORST_AV_ALT_ER_KJAERLIGHETEN['navn']} i område {omraadeOgrad[0]} på rad {omraadeOgrad[1]}")
     break
 
     
