@@ -31,7 +31,7 @@ def selectValuesFromTable(table, values, condition = None):
     con.close()
     return res
 
-def manualCommandSqlInsert(command):
+def manualInsert(command):
     con = sqlite3.connect(DATABASE_PATH)
     cursor = con.cursor()
     try:
@@ -41,7 +41,7 @@ def manualCommandSqlInsert(command):
         print(e)
     con.close()
 
-def manualCommanSqlSelect(command):
+def manualSelect(command):
     con = sqlite3.connect(DATABASE_PATH)
     cursor = con.cursor()
     try:

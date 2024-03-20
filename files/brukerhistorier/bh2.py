@@ -29,7 +29,5 @@ for fil in filer:
     ordreid = getOrdre(ordreDato,ordreKlokkeslett,kundeid)
     for sete in data['solgteSeter']:
         seteID = getSeteIDFromSete(sete)
-        insert_billett(seteID,oppsetningID, GRUPPE_10_HONNOR,ordreid,teaterstykkeID)
+        insert_billett(seteID,oppsetningID, GRUPPE_10,ordreid,teaterstykkeID)
 
-
-# scanFil(GAMLE_SCENE_FIL)

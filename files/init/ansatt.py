@@ -27,7 +27,7 @@ def insert_ansatte(ansatte, erSkuespillere, teaterStykke):
                         SELECT "{navn}"
                         WHERE NOT EXISTS (SELECT 1 FROM ANSATT WHERE Navn = '{navn}');
                                '''
-        manualCommandSqlInsert(insertCommand)
+        manualInsert(insertCommand)
         ansattID = selectValuesFromTable('Ansatt', 'AnsattID', f'Navn = "{navn}"')[0][0]
         insertValuesIntoTable(tabellNavn, '(AnsattID)', f'({ansattID})')
         if erSkuespillere:
