@@ -66,7 +66,7 @@ def hentForestillingOgSolgteBilletter(dato="YYYY-MM-DD"):
                 LEFT JOIN Billett USING (OppsetningID)
                 WHERE Dato = "{dato}" GROUP BY OppsetningID;
                 '''
-    res = manualCommanSqlSelect(string)
+    res = manualSelect(string)
     return res
 
 def hentTeaterstykkeSkueSpillerRolle():
@@ -80,7 +80,7 @@ def hentTeaterstykkeSkueSpillerRolle():
                 GROUP BY R.Navn
                 ORDER BY TS.Navn, Ansatt.Navn;
                     '''
-    res = manualCommanSqlSelect(string)
+    res = manualSelect(string)
     return res
 
 def bestSolgtForestilling():
@@ -91,7 +91,7 @@ def bestSolgtForestilling():
                 GROUP BY O.OppsetningID
                 ORDER BY AntallSolgtePlasser DESC;
                 '''
-    res =manualCommanSqlSelect(string)
+    res =manualSelect(string)
     return res
 
 def hentSkuespillereISammeAktogStykke(navn):
@@ -103,7 +103,7 @@ def hentSkuespillereISammeAktogStykke(navn):
                 JOIN TeaterStykke AS TS ON (TS.TeaterStykkeID = RA.TeaterStykkeID)
                 ORDER BY RA.TeaterStykkeID, AktNummer
                 '''
-    res = manualCommanSqlSelect(kommando)
+    res = manualSelect(kommando)
     lst = []
     lst2 = []
     for i in res:
