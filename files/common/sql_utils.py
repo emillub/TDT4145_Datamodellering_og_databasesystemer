@@ -52,3 +52,13 @@ def manualCommanSqlSelect(command):
         res = None
     con.close()
     return res
+
+def hentForestillingOgSolgteBilletter(dato="YYYY-MM-DD"):
+    string = f'''SELECT Navn, COUNT (DISTINCT BillettID) AS SolteBilletter
+                FROM Oppsetning 
+                LEFT JOIN TeaterStykke ON Oppsetning.TeaterStykkeID=TeaterStykke.TeaterstykkeID
+                LEFT JOIN Billett USING (OppsetningID)
+                WHERE Dato = "{dato}" GROUP BY OppsetningID;
+                '''
+    res = manualCommanSqlSelect(string)
+    return res

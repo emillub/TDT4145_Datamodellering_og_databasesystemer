@@ -81,7 +81,7 @@ KONGSEMNENE = {
     'forfatter' : "Henrik Ibsen",
     'akter' : ['','','','',''],
     'visesI' : HOVED_SCENE,
-    'oppsetninger' : ["2024-02-1", "2024-02-02", "2024-02-03", "2024-02-05", "2024-02-06"],
+    'oppsetninger' : ["2024-02-01", "2024-02-02", "2024-02-03", "2024-02-05", "2024-02-06"],
     'rolleIAkt': {
         "Haakon Haakonssønn" : {1,2,3,4,5},
         "Inga fra Vartejg (Haakons mor)" : {1,3},
