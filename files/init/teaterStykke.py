@@ -11,4 +11,7 @@ def init_teaterStykke(teaterStykke):
     insertValuesIntoTable("TeaterStykke", '(TeaterStykkeID, Navn, StartTid, Forfatter, VisesISal)', f'({teaterStykke["id"]},\"{teaterStykke["navn"]}\", \"{teaterStykke["startTid"]}\",\"{teaterStykke["forfatter"]}\",{visesISal})')
 
 def getTeaterStykkeIDFraSalID(salID):
-    return selectValuesFromTable('TeaterStykke', 'TeaterStykkeID', f'VisesISal = {salID}')[0][0]
+    res = selectValuesFromTable('TeaterStykke', 'TeaterStykkeID', f'VisesISal = {salID}')
+    if len(res) == 1:
+        res = res[0][0]
+    return res

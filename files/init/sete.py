@@ -4,6 +4,7 @@ sys.path.append('files')
 
 from common.constants import *
 from common.sql_utils import *
+from init.oppsetning import getOppsetningIDFraDatoOgStykke
 
 
 def init_seter(sal):
@@ -49,31 +50,34 @@ def getSeteIDFromSete(sete):
     salid = sete[3]
     return selectValuesFromTable('Sete', 'SeteID', f'(RadNr = {radnr} AND SeteNr = {setenr} AND Område = "{omraade}" AND SalID = {salid})')[0][0]
 
-def getLedigeSeterPaRadMedXLedigeSeter(x,dato,teaterstykke):
-    kjopteSeter = str(getKjopteSeter(dato,teaterstykke)).strip('[').strip(']')
-    rader = str(getRaderMedXLedigeSeter(x,dato,teaterstykke)).strip('[').strip(']')
+def getLedigeSeterPaRad(omrade,rad,oppsetningID):
+    kjopteSeter = str(getKjopteSeterFraOppsetning(oppsetningID)).strip('[').strip(']')
     query = f'''
-        SELECT SeteID
+        SELECT *
         FROM Sete JOIN 
-        (Select VisesISal FROM TeaterStykke WHERE TeaterStykkeID = {teaterstykke}) 
+        (SELECT VisesISal FROM Oppsetning NATURAL JOIN TeaterStykke WHERE OppsetningID = {oppsetningID}) 
         ON VisesISal = Sete.SalID 
-        WHERE (RadNr IN ({rader}) AND SeteID NOT IN ({kjopteSeter}))
+        WHERE (Område IN ("{omrade}") AND RadNr IN ({rad}) AND SeteID NOT IN ({kjopteSeter}))
     '''
-    return [sete[0] for sete in manualSelect(query)]
+    return manualSelect(query)
 
-def getRaderMedXLedigeSeter(x,dato, teaterstykke):
-    kjopteSeter = str(getKjopteSeter(dato,teaterstykke)).strip('[').strip(']')
+def getRaderMedXLedigeSeterForDatoOgStykke(x,dato, stykkeID):
+    return getRaderMedXLedigeSeterForOppsetning(x,getOppsetningIDFraDatoOgStykke(dato,stykkeID))
+
+def getRaderMedXLedigeSeterForOppsetning(x,oppsetningID):
+    kjopteSeter = str(getKjopteSeterFraOppsetning(oppsetningID)).strip('[').strip(']')
+    
     query = f'''
-        SELECT RadNr
+        SELECT Område, RadNr
         FROM Sete JOIN 
-        (Select VisesISal FROM TeaterStykke WHERE TeaterStykkeID = {teaterstykke}) 
+        (SELECT VisesISal FROM Oppsetning NATURAL JOIN TeaterStykke WHERE OppsetningID = {oppsetningID}) 
         ON VisesISal = Sete.SalID 
         WHERE SeteID NOT IN ({kjopteSeter})
-        GROUP BY RadNr
-        HAVING Count(*) > {x}'''
-    return [rad[0] for rad in manualSelect(query)]
+        GROUP BY Område, RadNr
+        HAVING Count(*) >= {x}'''
+    return manualSelect(query)
 
-def getKjopteSeter(dato, teaterstykke):
+def getKjopteSeterFraDatoOgStykkeID(dato, stykkeID):
     query = f'''
         SELECT SeteID
         FROM Sete
@@ -81,8 +85,16 @@ def getKjopteSeter(dato, teaterstykke):
             SELECT SeteID
             FROM Oppsetning 
             JOIN (SELECT SeteID, OppsetningID FROM Billett) AS b ON Oppsetning.OppsetningID = b.OppsetningID
-            WHERE (Dato = "{dato}" AND TeaterStykkeID = {teaterstykke})
+            WHERE (Dato = "{dato}" AND TeaterStykkeID = {stykkeID})
         )
     '''
 
+    return [sete[0] for sete in manualSelect(query)]
+
+def getKjopteSeterFraOppsetning(oppsetningid):
+    query = f'''
+        SELECT SeteID
+        FROM Billett
+        WHERE OppsetningID = {oppsetningid}
+    '''
     return [sete[0] for sete in manualSelect(query)]

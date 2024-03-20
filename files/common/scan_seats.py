@@ -3,10 +3,10 @@ sys.path.append('files')
 from common.constants import *
 from common.sql_utils import *
 from init.sal import getSalIDFraNavn, getSalKapasitet
-from init.sete import getAntallRaderForOmraade, getAntallRaderPerOmraade
+from init.sete import getAntallRaderForOmraade
 
-def inneholderOmraderEllerDato(line):
-    return any((not c.isdigit() and c!='x') for c in line) # Sjekker om linje inneholder dato eller område
+def inneholderOmraderEllerDato(linje):
+    return any((not c.isdigit() and c!='x') for c in linje) # Sjekker om linje inneholder dato eller område
 
 def scanFil(fil):
     if fil == HOVEDSCENEN_FIL:
@@ -26,7 +26,6 @@ def scanFil(fil):
 
     salid = getSalIDFraNavn(sal['navn'])
     kapasitet = getSalKapasitet(salid)
-    radPerOmraade = getAntallRaderPerOmraade(salid)
 
     with open(fil, 'r') as f:
         linjer = f.readlines()
@@ -52,16 +51,3 @@ def scanFil(fil):
                 telteSeter += 1
             radNr-=1
     return oppsetning
-
-                
-
-# insertDefaultBruker()
-# insertDefaultOrdre()
-
-
-
-
-            
-            
-
-# print(lesSolgteStolrFraFil('txt/hovedscenen.txt',False))

@@ -13,6 +13,8 @@ def insertValuesIntoTable(table, valueNames, values):
         cursor.execute(command)
         con.commit()
     except Exception as e:
+        print(command)
+
         print(e)
     con.close()
 
@@ -26,6 +28,7 @@ def selectValuesFromTable(table, values, condition = None):
         cursor.execute(command)
         res = cursor.fetchall()
     except Exception as e:
+        print(command)
         print(e)
         res = None
     con.close()
@@ -38,6 +41,7 @@ def manualInsert(command):
         cursor.execute(command)
         con.commit()
     except Exception as e:
+        print(command)
         print(e)
     con.close()
 
@@ -47,7 +51,9 @@ def manualSelect(command):
     try:
         cursor.execute(command)
         res = cursor.fetchall()
+
     except Exception as e:
+        print(command)
         print(e)
         res = None
     con.close()

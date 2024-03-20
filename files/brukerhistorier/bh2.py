@@ -11,23 +11,22 @@ from init.teaterStykke import *
 
 
 
-kundeid = ordreid = 0
-
-insert_kunde(kundeid, 12345678, "Ola Norman", "Adressen 1")
-ordreDato = "2024-01-01"
-ordreKlokkeslett = "08:00"
-insert_ordre(ordreDato, ordreKlokkeslett, kundeid)
-
+navn = "Navn Navnesen"
+tlf = 123456789
+adr = "Adressen 1"
+kundeid = nyKunde(navn,tlf,adr)
 filer = [HOVEDSCENEN_FIL, GAMLE_SCENE_FIL]
+for index,fil in enumerate(filer):
+    ordreDato = f"2024-01-0{1+index}" #lager nydato og dermed ny ordre
+    ordreKlokkeslett = "08:00"
+    ordreid = nyOrdre(ordreDato,ordreKlokkeslett,kundeid)
 
-for fil in filer:
     data = scanFil(fil)
     dato = data['dato']
     salID = getSalIDFraNavn(data['sal'])
     teaterstykkeID = getTeaterStykkeIDFraSalID(salID)
-    oppsetningID = getOppsetningIDFraDatoOgSal(salID,dato)
-    ordreid = getOrdre(ordreDato,ordreKlokkeslett,kundeid)
+    oppsetningID = getOppsetningIDFraDatoOgStykke(salID,dato)
     for sete in data['solgteSeter']:
         seteID = getSeteIDFromSete(sete)
-        insert_billett(seteID,oppsetningID, GRUPPE_10,ordreid,teaterstykkeID)
+        nyBillett(seteID,oppsetningID, GRUPPE_10,ordreid,teaterstykkeID)
 
