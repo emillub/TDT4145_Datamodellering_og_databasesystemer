@@ -87,3 +87,26 @@ def bestSolgtForestilling():
                 '''
     res =manualCommanSqlSelect(string)
     return res
+
+def hentSkuespillereISammeAktogStykke(navn):
+    kommando = f'''SELECT  A.Navn,  RA.Nummer AS AktNummer,  TS.Navn
+                FROM Skuespiller AS S
+                JOIN HarRolle AS HR ON (HR.AnsattID =  S.AnsattID)
+                JOIN Ansatt AS A ON (A.AnsattID = S.AnsattID)
+                JOIN RolleIAkt AS RA ON (RA.RolleID = HR.RolleID)
+                JOIN TeaterStykke AS TS ON (TS.TeaterStykkeID = RA.TeaterStykkeID)
+                ORDER BY RA.TeaterStykkeID, AktNummer
+                '''
+    res = manualCommanSqlSelect(kommando)
+    lst = []
+    lst2 = []
+    for i in res:
+        for j in res:
+            if (i[0] == navn):
+                if ((i[1] == j[1]) and (i[0] != j[0]) and (i[2] == j[2])):
+                    tuppel = (i[0], j[0], i[2])
+                    lst.append(tuppel)
+    for el in lst:
+        if navn in el:
+            lst2.append(el)
+    return lst2
