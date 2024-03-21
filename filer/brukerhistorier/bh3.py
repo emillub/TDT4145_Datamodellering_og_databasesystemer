@@ -34,7 +34,7 @@ for index,omraadeOgrad in enumerate(ledigerader):
 print(raderString)
 velgRad = 'Velg en rad ved å skrive inn tallet til venstre for raden: '
 
-while True:
+while len(ledigerader) > 0:
     try:
         omraadeOgrad = ledigerader[int(input(velgRad))]
     except:
