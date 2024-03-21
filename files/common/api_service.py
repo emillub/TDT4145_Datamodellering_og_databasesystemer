@@ -1,4 +1,7 @@
 import requests
+import sys
+sys.path.append('files')
+from common.constants import *
 
 # Henter data fra API
 def fetchData(url):
@@ -17,6 +20,8 @@ def fetchAnsatteData(teaterStykke):
             roller = [navn]
         else:
             roller = [rolle.strip() for rolle in rolleData.split("/")]
+            if 'Trønder' in roller:
+                roller = [' / '.join(roller)]
         skuespillere.append({'navn' : navn,
                             'roller' : roller,
                             'id' : index+1})
@@ -31,3 +36,5 @@ def fetchAnsatteData(teaterStykke):
                             'id' : len(skuespillere)+index+1})
         
     return {'skuespillere': skuespillere, 'medvirkende' : medvirkende}
+
+fetchAnsatteData(KONGSEMNENE)

@@ -92,12 +92,12 @@ KONGSEMNENE = {
         "Ingebjørg" : {4},
         "Biskop Nikolas" : {1,2,3},
         "Gregorius Jonssønn" : {1,2,3,4,5},
-        "Paal Flida" : {1,2,3,4,5},
-        "Baard Bratte" : {2},
+        "Paal Flida / Trønder" : {1,2,3,4,5},
+        "Baard Bratte / Trønder" : {2},
         "Jatgeir Skald": {4},
         "Dagfinn Bonde" : {1,2,3,4,5},
         "Peter (prest og Ingebjørgs sønn)" : {3,4,5},    
-        "Trønder" : {2,3,4}
+
     },
     'priser' : {
         ORDNIAER: 450,
