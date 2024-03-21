@@ -2,10 +2,10 @@ import sqlite3
 import sys
 
 import requests
-sys.path.append('files')
-from common.constants import *
+sys.path.append('filer')
+from diverse.konstanter import *
 
-def insertValuesIntoTable(table, valueNames, values):
+def settInnVerdierITabell(table, valueNames, values):
     con = sqlite3.connect(DATABASE_PATH)
     cursor = con.cursor()
     command = f'INSERT INTO {table} {valueNames} VALUES {values}'
@@ -18,7 +18,7 @@ def insertValuesIntoTable(table, valueNames, values):
         print(e)
     con.close()
 
-def selectValuesFromTable(table, values, condition = None):
+def velgVerdierFraTabell(table, values, condition = None):
     con = sqlite3.connect(DATABASE_PATH)
     cursor = con.cursor()
     command = f'SELECT {values} FROM {table}'
@@ -34,7 +34,7 @@ def selectValuesFromTable(table, values, condition = None):
     con.close()
     return res
 
-def manualInsert(command):
+def manuelInsetning(command):
     con = sqlite3.connect(DATABASE_PATH)
     cursor = con.cursor()
     try:
@@ -45,7 +45,7 @@ def manualInsert(command):
         print(e)
     con.close()
 
-def manualSelect(command):
+def manuelValg(command):
     con = sqlite3.connect(DATABASE_PATH)
     cursor = con.cursor()
     try:
@@ -68,7 +68,7 @@ def hentForestillingOgSolgteBilletter(dato="YYYY-MM-DD"):
                 LEFT JOIN Billett USING (OppsetningID)
                 WHERE Dato = "{dato}" GROUP BY OppsetningID;
                 '''
-    res = manualSelect(string)
+    res = manuelValg(string)
     return res
 
 def hentTeaterstykkeSkueSpillerRolle():
@@ -81,7 +81,7 @@ def hentTeaterstykkeSkueSpillerRolle():
                 JOIN TeaterStykke AS TS USING (TeaterStykkeID)
                 ORDER BY TS.Navn, Ansatt.Navn;
                     '''
-    res = manualSelect(string)
+    res = manuelValg(string)
     return res
 
 def bestSolgtForestilling():
@@ -92,7 +92,7 @@ def bestSolgtForestilling():
                 GROUP BY O.OppsetningID
                 ORDER BY AntallSolgtePlasser DESC;
                 '''
-    res =manualSelect(string)
+    res =manuelValg(string)
     return res
 
 def hentSkuespillereISammeAktogStykke(navn):
@@ -110,4 +110,4 @@ def hentSkuespillereISammeAktogStykke(navn):
                 NATURAL JOIN (SELECT Navn as teaterstykkeNavn, TeaterStykkeID FROM TeaterStykke)
                 WHERE sNavn != "{navn}"
                 '''
-    return manualSelect(kommando)
+    return manuelValg(kommando)

@@ -1,7 +1,7 @@
 import sqlite3
 import sys
-sys.path.append('files')
-from common.sql_utils import hentSkuespillereISammeAktogStykke
+sys.path.append('filer')
+from diverse.sql_kommandoer import hentSkuespillereISammeAktogStykke
 
 
 #Her kan man endre skuespillernavn for å se medskuespillere og teaterstykke. 

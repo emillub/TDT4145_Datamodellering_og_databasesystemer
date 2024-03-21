@@ -1,7 +1,7 @@
 import sys
 
-sys.path.append('files')
-from common.sql_utils import *
+sys.path.append('filer')
+from diverse.sql_kommandoer import *
 
 informasjon = hentTeaterstykkeSkueSpillerRolle()
 for el in informasjon:

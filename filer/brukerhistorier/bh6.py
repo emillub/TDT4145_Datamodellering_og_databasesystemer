@@ -1,8 +1,8 @@
 import sqlite3
 import sys
 
-sys.path.append('files')
-from common.sql_utils import bestSolgtForestilling
+sys.path.append('filer')
+from diverse.sql_kommandoer import bestSolgtForestilling
 
 data = bestSolgtForestilling()
 for i in data:

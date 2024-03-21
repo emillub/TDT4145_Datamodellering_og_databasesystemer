@@ -1,8 +1,8 @@
 import sqlite3
 import sys
-sys.path.append('files')
-from common.constants import *
-from common.sql_utils import *
+sys.path.append('filer')
+from diverse.konstanter import *
+from diverse.sql_kommandoer import *
 
 from init._table_init import init_table
 from init.ansatt import init_ansatte
@@ -13,7 +13,7 @@ from init.akt import init_akter
 from init.sal import init_sal
 from init.sete import init_seter
 
-# Runs all insertion-files in correct order.
+# Runs all insertion-filer in correct order.
 init_table()
 
 # for sal in SALER:

@@ -12,7 +12,7 @@ Innlevert mappe inneholder to mapper, en readME og den tomme databasefilen. Mapp
 
 # Forutsetninger
 
-For at man skal kunne kjøre dette prosjektet forutsetter det at leser har en grunnleggende forståelse av kodespråket python og hvordan man skal kjøre et pythonscript. Vi forutsetter at man kjører programmet enten gjennom terminalvinduet eller gjennom vscode. Applikasjonen vår gjør API kall for å hente informasjon fra nettsiden til Trønderlag Teater, så leser må ha internett-tilgang for å kunne kjøre programmet. For å holde koden ryddig har vi skrevet SQL-statementene i brukerhistorier 4-7 i bunnen av filen .files/brukerhistorier/sql_utils.py linje 64-119 i stedet for å levere inn rå SQL kode. Dette følte vi var fordelaktig fremfor å levere rå SQL sammen med et pythonprosjekt. 
+For at man skal kunne kjøre dette prosjektet forutsetter det at leser har en grunnleggende forståelse av kodespråket python og hvordan man skal kjøre et pythonscript. Vi forutsetter at man kjører programmet enten gjennom terminalvinduet eller gjennom vscode. Applikasjonen vår gjør API kall for å hente informasjon fra nettsiden til Trønderlag Teater, så leser må ha internett-tilgang for å kunne kjøre programmet. For å holde koden ryddig har vi skrevet SQL-statementene i brukerhistorier 4-7 i bunnen av filen .filer/brukerhistorier/sql_utils.py linje 64-119 i stedet for å levere inn rå SQL kode. Dette følte vi var fordelaktig fremfor å levere rå SQL sammen med et pythonprosjekt. 
 # Kjøreoppskrift
 
 Før man kan kjøre programmet er det viktig at man har to python-pakker installert. Dette er **request**-modulen og **sqlite3**-modulen. Disse er nødvendige for henholdsvis å kunne gjøre http-kall og for å kunne kommunisere med databasen. Etter man har installert python kan man kjøre kommandoene under får å installere modulene  i enten terminal-vinduet eller i integrert terminal i VS code.
@@ -32,9 +32,9 @@ Når du har åpnet terminalviduet må du navigere deg fram til bunnen av prosjek
 
 Fra her kan man kjøre følgende kommando for å kjøre python scriptene som gjennomfører brukerhistoriene:
 
-`python .\files\brukerhistorier\bh1.py` 
+`python .\filer\brukerhistorier\bh1.py` 
 eller eventuelt 
-`python3 .\files\brukerhistorier\bh1.py`
+`python3 .\filer\brukerhistorier\bh1.py`
 
 Slik kan man kjøre gjennom brukerhistorie 1-7 ved å endre tallet før .py deklarasjonen til hvaenn man ønsker mellom 1 og 7. Vi anbefaler at man kjører 1 og 2 først for å initiere databasen. Hvis du ønsker å endre input til programmene, kan du åpne brukerhistorie-filene i et tekst-redigerings-program og endre på de oppgitte variablene for å få annen output. Husk å lagre endringene før du kjører filen på nytt.
 

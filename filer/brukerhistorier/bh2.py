@@ -1,6 +1,6 @@
 import sys
-sys.path.append('files')
-from common.scan_seats import *
+sys.path.append('filer')
+from diverse.skann_sete import *
 from init.kunde import *
 from init.ordre import *
 from init.sal import *
@@ -23,10 +23,10 @@ for index,fil in enumerate(filer):
 
     data = scanFil(fil)
     dato = data['dato']
-    salID = getSalIDFraNavn(data['sal'])
-    teaterstykkeID = getTeaterStykkeIDFraSalID(salID)
-    oppsetningID = getOppsetningIDFraDatoOgStykke(salID,dato)
+    salID =hentSalIDFraNavn(data['sal'])
+    teaterstykkeID =hentTeaterStykkeIDFraSalID(salID)
+    oppsetningID =hentOppsetningIDFraDatoOgStykke(salID,dato)
     for sete in data['solgteSeter']:
-        seteID = getSeteIDFromSete(sete)
+        seteID =hentSeteIDFromSete(sete)
         nyBillett(seteID,oppsetningID, GRUPPE_10,ordreid,teaterstykkeID)
 

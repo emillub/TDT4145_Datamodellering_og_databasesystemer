@@ -1,8 +1,8 @@
 import sys
-sys.path.append('files')
-from common.constants import *
-from common.sql_utils import *
-from common.api_service import fetchAnsatteData
+sys.path.append('filer')
+from diverse.konstanter import *
+from diverse.sql_kommandoer import *
+from diverse.api import fetchAnsatteData
 from init.rolle import *
 from init.arbeidsoppgave import *
 
@@ -27,9 +27,9 @@ def insert_ansatte(ansatte, erSkuespillere, teaterStykke):
                         SELECT "{navn}"
                         WHERE NOT EXISTS (SELECT 1 FROM ANSATT WHERE Navn = '{navn}');
                                '''
-        manualInsert(insertCommand)
-        ansattID = selectValuesFromTable('Ansatt', 'AnsattID', f'Navn = "{navn}"')[0][0]
-        insertValuesIntoTable(tabellNavn, '(AnsattID)', f'({ansattID})')
+        manuelInsetning(insertCommand)
+        ansattID = velgVerdierFraTabell('Ansatt', 'AnsattID', f'Navn = "{navn}"')[0][0]
+        settInnVerdierITabell(tabellNavn, '(AnsattID)', f'({ansattID})')
         if erSkuespillere:
             insert_roller(skuespiller=ansatt, ansattID=ansattID, teaterStykke=teaterStykke)
         else:

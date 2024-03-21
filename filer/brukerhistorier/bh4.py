@@ -1,7 +1,7 @@
 import sys
-sys.path.append('files')
-from common.scan_seats import *
-from common.sql_utils import *
+sys.path.append('filer')
+from diverse.skann_sete import *
+from diverse.sql_kommandoer import *
 
 # Henter informasjon gjennom en SQLquery basert på brukerhistorie.
 # Query er definert i hentForestillingOgSolgteBilleter()-funksjon

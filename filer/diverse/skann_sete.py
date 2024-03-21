@@ -1,9 +1,9 @@
 import sys
-sys.path.append('files')
-from common.constants import *
-from common.sql_utils import *
-from init.sal import getSalIDFraNavn, getSalKapasitet
-from init.sete import getAntallRaderForOmraade
+sys.path.append('filer')
+from diverse.konstanter import *
+from diverse.sql_kommandoer import *
+from init.sal import hentSalIDFraNavn,hentSalKapasitet
+from init.sete import hentAntallRaderForOmraade
 
 def inneholderOmraderEllerDato(linje):
     return any((not c.isdigit() and c!='x') for c in linje) # Sjekker om linje inneholder dato eller område
@@ -24,8 +24,8 @@ def scanFil(fil):
     if sal == HOVED_SCENE:
         resetStolNrPerRad = False
 
-    salid = getSalIDFraNavn(sal['navn'])
-    kapasitet = getSalKapasitet(salid)
+    salid = hentSalIDFraNavn(sal['navn'])
+    kapasitet = hentSalKapasitet(salid)
 
     with open(fil, 'r') as f:
         linjer = f.readlines()
@@ -37,7 +37,7 @@ def scanFil(fil):
                     oppsetning['dato'] = linje.strip('Dato ')
                 else:
                     omraade = linje
-                    radNr = getAntallRaderForOmraade(salid,omraade)
+                    radNr =hentAntallRaderForOmraade(salid,omraade)
                 continue
             rad = linje
             radLengde = len(rad)

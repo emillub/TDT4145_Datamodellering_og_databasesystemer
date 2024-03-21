@@ -1,7 +1,7 @@
 import requests
 import sys
-sys.path.append('files')
-from common.constants import *
+sys.path.append('filer')
+from diverse.konstanter import *
 
 # Henter data fra API
 def fetchData(url):
