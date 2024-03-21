@@ -178,3 +178,5 @@ Vi har sett det hensiktsmessig å endre på enkelte aspekter med modellen vår f
 - VisesI tabellen som er illustrer i ERR-diagrammet er unødvendig. Dette kommer av at oppgavebeskrivelsen oppgir at et stykke kun vises i en sal og dette er dermed lagt inn under konstanter-mappen
 
 Disse endringene er lagt til for å implementere modellen.
+
+Kunsitg intelligens er ikke brukt for å generere kode, men minimalt brukt som verktøy for å debugge kode. 
