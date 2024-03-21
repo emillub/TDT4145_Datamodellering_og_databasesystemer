@@ -11,4 +11,4 @@ SkuespillereOgStykke = hentSkuespillereISammeAktogStykke(navn)
 print(f'Skuespiller: {navn}:')
 print('--------------------------')
 for i in range(len(SkuespillereOgStykke)):
-        print(f'MedSkuespiller: {SkuespillereOgStykke[i][1]} || TeaterStykke: {SkuespillereOgStykke[i][2]}')
+        print(f'MedSkuespiller: {SkuespillereOgStykke[i][0]} || TeaterStykke: {SkuespillereOgStykke[i][1]}')

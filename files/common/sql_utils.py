@@ -96,24 +96,18 @@ def bestSolgtForestilling():
     return res
 
 def hentSkuespillereISammeAktogStykke(navn):
-    kommando = f'''SELECT  A.Navn,  RA.Nummer AS AktNummer,  TS.Navn
-                FROM Skuespiller AS S
-                JOIN HarRolle AS HR ON (HR.AnsattID =  S.AnsattID)
-                JOIN Ansatt AS A ON (A.AnsattID = S.AnsattID)
-                JOIN RolleIAkt AS RA ON (RA.RolleID = HR.RolleID)
-                JOIN TeaterStykke AS TS ON (TS.TeaterStykkeID = RA.TeaterStykkeID)
-                ORDER BY RA.TeaterStykkeID, AktNummer
+    kommando = f'''SELECT DISTINCT sNavn, teaterstykkeNavn
+                FROM (RolleIAkt as ria2
+                JOIN(
+                SELECT ria.TeaterStykkeID, ria.Nummer
+                FROM ((SELECT AnsattID as SkuespillerID FROM Skuespiller) AS S
+                JOIN (SELECT Navn, AnsattID FROM Ansatt WHERE Navn = "{navn}" ) AS A ON (A.AnsattID = S.SkuespillerID)
+                NATURAL JOIN HarRolle as hr
+                NATURAL JOIN RolleIAkt as ria)) as ria1
+                ON ria1.TeaterStykkeID = ria2.TeaterStykkeID AND ria1.Nummer = ria2.Nummer) as aktid
+                NATURAL JOIN HarRolle as hr
+                NATURAL JOIN (SELECT Navn as sNavn, AnsattID FROM ansatt) as a
+                NATURAL JOIN (SELECT Navn as teaterstykkeNavn, TeaterStykkeID FROM TeaterStykke)
+                WHERE sNavn != "{navn}"
                 '''
-    res = manualSelect(kommando)
-    lst = []
-    lst2 = []
-    for i in res:
-        for j in res:
-            if (i[0] == navn):
-                if ((i[1] == j[1]) and (i[0] != j[0]) and (i[2] == j[2])):
-                    tuppel = (i[0], j[0], i[2])
-                    lst.append(tuppel)
-    for el in lst:
-        if navn in el:
-            lst2.append(el)
-    return lst2
+    return manualSelect(kommando)
